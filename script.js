@@ -14,10 +14,6 @@ function divide(x,y) {
     return x/y
 }
 
-let num1;
-let num2;
-let op;
-
 function operate(operator, x, y) {
     switch(operator) {
         case '+':
@@ -35,3 +31,32 @@ function operate(operator, x, y) {
             return "Enter a valid operator"   
     }
 }
+
+/* useful variables */
+let num1;
+let num2;
+let op;
+const operations = ['+', '-', '*', '/'];
+
+/* for display portion of calculator */
+const display = document.querySelector('.display');
+display.textContent = "0"
+
+/* creates buttons for calculator */
+const buttons = document.querySelector('.buttons');
+for (let i=0; i<=9; i++) {
+    let btn = document.createElement('button');
+    btn.textContent = `${i}`;
+    /* add event listener for clicks */
+    buttons.appendChild(btn);
+}
+for (o of operations) {
+    let btn = document.createElement('button');
+    btn.textContent = o;
+    /* add event listener for clicks */
+    buttons.appendChild(btn); 
+}
+let clear = document.createElement('button');
+clear.textContent = "clear";
+/* add event listener for clicks */
+buttons.appendChild(clear);
