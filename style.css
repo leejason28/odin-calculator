@@ -1,0 +1,37 @@
+.num {
+    color: black;
+}
+
+.op {
+    color: orange;
+    display: flex;
+    flex-direction: column;
+}
+
+.sp {
+    color: red;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.display {
+    display: flex;
+    flex: 1;
+    background-color: rgb(172, 170, 170);
+    color: black;
+    justify-content: center;
+    align-items: center;
+}
+
+#calculator {
+    display: flex;
+    padding: 8px;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

@@ -27,6 +27,9 @@ function operate(operator, x, y) {
             break;
         case '/':
             if (y==0) {
+                num1 = null;
+                num2 = null;
+                op = null;
                 return "Divide by zero error"
             }
             return divide(x,y)
@@ -48,6 +51,10 @@ display.textContent = ""
 
 /* number buttons */
 const buttons = document.querySelector('.buttons');
+const onetwothree = document.createElement('div');
+const fourfivesix = document.createElement('div');
+const seveneightnine = document.createElement('div');
+const zero = document.createElement('div');
 for (let i=0; i<=9; i++) {
     let btn = document.createElement('button');
     btn.textContent = `${i}`;
@@ -67,10 +74,24 @@ for (let i=0; i<=9; i++) {
             display.textContent = num1;
         }
     });
-    buttons.appendChild(btn);
+    btn.classList.add('num');
+    if (i==0) {
+        zero.appendChild(btn);
+    } else if (i>0 && i<4) {
+        onetwothree.appendChild(btn);
+    } else if (i>3 && i<7) {
+        fourfivesix.appendChild(btn);
+    } else {
+        seveneightnine.appendChild(btn);
+    }
+    buttons.appendChild(onetwothree);
+    buttons.appendChild(fourfivesix);
+    buttons.appendChild(seveneightnine);
+    buttons.appendChild(zero);
 }
 
 /* operation buttons */
+const opbuttons = document.querySelector('.op-buttons');
 for (let i=0; i<operations.length; i++) {
     let btn = document.createElement('button');
     btn.textContent = `${operations[i]}`;
@@ -83,19 +104,12 @@ for (let i=0; i<operations.length; i++) {
         op = `${operations[i]}`;
         /* edge case: user tries to enter another operation */
     });
-    buttons.appendChild(btn); 
+    btn.classList.add('op');
+    opbuttons.appendChild(btn);
 }
 
-/* clear button */
-let clear = document.createElement('button');
-clear.textContent = "clear";
-clear.addEventListener('click', () => {
-    num1 = null;
-    num2 = null;
-    op = null;
-    display.textContent = "";
-});
-buttons.appendChild(clear);
+/* for = and clear buttons */
+const spbuttons = document.querySelector('.sp-buttons');
 
 /* equal button */
 let equal = document.createElement('button');
@@ -108,4 +122,17 @@ equal.addEventListener('click', () => {
     display.textContent = num1;
     done = true;
 });
-buttons.appendChild(equal);
+equal.classList.add('sp');
+spbuttons.appendChild(equal);
+
+/* clear button */
+let clear = document.createElement('button');
+clear.textContent = "clear";
+clear.addEventListener('click', () => {
+    num1 = null;
+    num2 = null;
+    op = null;
+    display.textContent = "";
+});
+clear.classList.add('sp');
+spbuttons.appendChild(clear);
