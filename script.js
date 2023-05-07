@@ -36,10 +36,11 @@ function operate(operator, x, y) {
 }
 
 /* useful variables */
-let num1;
-let num2;
-let op;
+let num1 = null;
+let num2 = null;
+let op = null;
 const operations = ['+', '-', '*', '/'];
+let done = false;
 
 /* for display portion of calculator */
 const display = document.querySelector('.display');
@@ -51,8 +52,20 @@ for (let i=0; i<=9; i++) {
     let btn = document.createElement('button');
     btn.textContent = `${i}`;
     btn.addEventListener('click', () => {
-        display.textContent = display.textContent + `${i}`
-        /* add logic for updating numbers: 123 -> (((1*10)+2)*10)+3 */
+        if (op) {
+            if (!num2) {
+                num2 = 0;
+            } 
+            num2 = (num2*10) + i;
+            display.textContent = num2;
+        } else {
+            if (done) {
+                num1 = 0;
+                done = false;
+            }
+            num1 = (num1*10) + i;
+            display.textContent = num1;
+        }
     });
     buttons.appendChild(btn);
 }
@@ -62,9 +75,12 @@ for (let i=0; i<operations.length; i++) {
     let btn = document.createElement('button');
     btn.textContent = `${operations[i]}`;
     btn.addEventListener('click', () => {
-        display.textContent = display.textContent + `${operations[i]}`;                           /* fix */
-        op = `${operations[i]}`
-        /* probably update num1 & num2 here (also display) */
+        if (num2) {
+            num1 = operate(op, num1, num2);
+            num2 = null;
+            display.textContent = num1;
+        }
+        op = `${operations[i]}`;
         /* edge case: user tries to enter another operation */
     });
     buttons.appendChild(btn); 
@@ -77,7 +93,7 @@ clear.addEventListener('click', () => {
     num1 = null;
     num2 = null;
     op = null;
-    display.textContent = ""
+    display.textContent = "";
 });
 buttons.appendChild(clear);
 
@@ -86,7 +102,10 @@ let equal = document.createElement('button');
 equal.textContent = "=";
 /* edge case: pressing = before entering second number */
 equal.addEventListener('click', () => {
-    display.textContent = operate(op, num1, num2)
-    /* update num1 to value of operate, op=null, num2=null */
+    num1 = operate(op, num1, num2);
+    op = null;
+    num2 = null;
+    display.textContent = num1;
+    done = true;
 });
 buttons.appendChild(equal);
