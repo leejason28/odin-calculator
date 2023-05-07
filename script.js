@@ -18,18 +18,12 @@ function operate(operator, x, y) {
     switch(operator) {
         case '+':
             return add(x,y)
-            break;
         case '-':
             return subtract(x,y)
-            break;
         case '*':
             return multiply(x,y)
-            break;
         case '/':
             if (y==0) {
-                num1 = null;
-                num2 = null;
-                op = null;
                 return "Divide by zero error"
             }
             return divide(x,y)
@@ -96,13 +90,18 @@ for (let i=0; i<operations.length; i++) {
     let btn = document.createElement('button');
     btn.textContent = `${operations[i]}`;
     btn.addEventListener('click', () => {
+        if (num2==0 && op=='/') {
+            num1 = null;
+            num2 = null;
+            op = null;
+            display.textContent = "Divide by zero error";
+        }
         if (num2) {
             num1 = operate(op, num1, num2);
             num2 = null;
             display.textContent = num1;
         }
         op = `${operations[i]}`;
-        /* edge case: user tries to enter another operation */
     });
     btn.classList.add('op');
     opbuttons.appendChild(btn);
@@ -114,13 +113,14 @@ const spbuttons = document.querySelector('.sp-buttons');
 /* equal button */
 let equal = document.createElement('button');
 equal.textContent = "=";
-/* edge case: pressing = before entering second number */
 equal.addEventListener('click', () => {
-    num1 = operate(op, num1, num2);
-    op = null;
-    num2 = null;
-    display.textContent = num1;
-    done = true;
+    if (num2 != null) {
+        num1 = operate(op, num1, num2);
+        op = null;
+        num2 = null;
+        display.textContent = num1;
+        done = true;
+    }
 });
 equal.classList.add('sp');
 spbuttons.appendChild(equal);
